@@ -28,20 +28,12 @@ const HomeScreen = (props: IProps) => {
         countries:[]
     })
 
-
-    useEffect(()=>{
-        console.log("asdasdasd",countryList)
-    },[countryList])
-
-
     useEffect(() => {
         if (data?.continent != undefined) {
             setCountryList(data.continent)
-            console.log("data?.continent", data?.continent)
             return
         }
         if (allCountriesList) {
-            console.log("allCountriesList", allCountriesList)
             setCountryList(allCountriesList)
             return
         }
