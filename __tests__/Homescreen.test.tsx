@@ -1,7 +1,7 @@
 
 
 import { fireEvent, render, screen, waitFor } from "@testing-library/react-native";
-import { GET_COUNTRIES_OF_CONTINENTS } from "../app/graphql/queries";
+import { GET_ALL_COUNTRIES, GET_COUNTRIES_OF_CONTINENTS } from "../app/graphql/queries";
 
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { MockedProvider } from '@apollo/client/testing';
@@ -56,15 +56,41 @@ const mockData = {
   },
 };
 
+const allCountriesList = {
+      "countries": [
+          {
+              "name": "Andorra",
+              "continent": {
+                  "name": "Europe",
+                  "code": "EU"
+              },
+              "emoji": "🇦🇩"
+          },
+          {
+              "name": "United Arab Emirates",
+              "continent": {
+                  "name": "Asia",
+                  "code": "AS"
+              },
+              "emoji": "🇦🇪"
+          },
+        ]
+      }
 
 const mock1 = [
+  {
+    request: {
+      query: GET_ALL_COUNTRIES,
+    },
+    result: { data: allCountriesList },
+  },
   {
     request: {
       query: GET_COUNTRIES_OF_CONTINENTS,
       variables: { code: "AF" },
     },
     result: { data: mockData },
-  }
+  },
 ];
 describe('HomeScreen', () => {
   it('Initial renders homescreen', async () => {

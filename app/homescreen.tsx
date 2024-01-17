@@ -1,23 +1,51 @@
 import { useQuery } from '@apollo/client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ActivityIndicator, Dimensions, FlatList, Image, RefreshControl, SafeAreaView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { selected, unselected } from './assets'
 import { continentsList } from './constants'
-import { GET_COUNTRIES_OF_CONTINENTS } from './graphql/queries'
+import { GET_ALL_COUNTRIES, GET_COUNTRIES_OF_CONTINENTS } from './graphql/queries'
 import { IContinent, ICountryItem, IProps } from './types/index'
 
 const { width, height } = Dimensions.get("screen")
 
 const HomeScreen = (props: IProps) => {
-    const [continent, setContinent] = useState({
+    const [continent, setContinent] = useState<{
+        code: string;
+        name: string;
+    }>({
         code: "",
         name: ""
     })
-    const [searchText, setSearchText] = useState('')
+    const [searchText, setSearchText] = useState<string>('')
 
+    const { data: allCountriesList } = useQuery(GET_ALL_COUNTRIES);
     const { loading, error, data, refetch, called } = useQuery(GET_COUNTRIES_OF_CONTINENTS, {
         variables: { code: continent.code },
     });
+    const [countryList, setCountryList] = useState<{
+        countries: ICountryItem[];
+    }>({
+        countries:[]
+    })
+
+
+    useEffect(()=>{
+        console.log("asdasdasd",countryList)
+    },[countryList])
+
+
+    useEffect(() => {
+        if (data?.continent != undefined) {
+            setCountryList(data.continent)
+            console.log("data?.continent", data?.continent)
+            return
+        }
+        if (allCountriesList) {
+            console.log("allCountriesList", allCountriesList)
+            setCountryList(allCountriesList)
+            return
+        }
+    }, [allCountriesList, data])
 
     const renderContinentsList = ({ item, index }: { item: IContinent, index: number }) => {
         let isSelected = item.code === continent.code
@@ -48,43 +76,44 @@ const HomeScreen = (props: IProps) => {
     </View>
     const Seperator = () => <View style={{ marginTop: 10 }} />
     return (
-        <SafeAreaView style={{flex:1}}>
-        <View style={styles.container}>
-            <StatusBar />
-            <Seperator />
-            <TextInput
-                onChangeText={(t) => {
-                    setSearchText(t)
-                }}
-                value={searchText}
-                placeholder={continent.code === "" ? "Please select continent" : "Search Country here..."}
-                style={styles.searchBar} />
-            <Seperator />
-            <View>
-                <FlatList
-                    data={continentsList}
-                    keyExtractor={(_, index) => index.toString()}
-                    ItemSeparatorComponent={() => <View style={{ paddingVertical: 2 }} />}
-                    renderItem={renderContinentsList}
-                />
+        <SafeAreaView style={{ flex: 1 }}>
+            <View style={styles.container}>
+                <StatusBar />
+                <Seperator />
+                <TextInput
+                    onChangeText={(t) => {
+                        setSearchText(t)
+                    }}
+                    value={searchText}
+                    placeholder={continent.code === "" ? "Please select continent" : "Search Country here..."}
+                    style={styles.searchBar} />
+                <Seperator />
+                <View>
+                    <FlatList
+                        data={continentsList}
+                        keyExtractor={(_, index) => index.toString()}
+                        ItemSeparatorComponent={() => <View style={{ paddingVertical: 2 }} />}
+                        renderItem={renderContinentsList}
+                    />
+                </View>
+                <Seperator />
+                <View>
+                    {continent.code && <Text style={{ alignSelf: "center", margin: 10 }}>{`Available Countries in ${continent.name} are`}</Text>}
+
+                    <FlatList
+                        ListEmptyComponent={emptyCountry}
+                        // data={data?.continent?.countries?.length === 0 ?allCountriesList?.countries : data?.continent?.countries.filter((country: ICountryItem) => country.name.toLowerCase().includes(searchText.toLowerCase()))}
+                        data={countryList?.countries?.filter((country: ICountryItem) => country.name.toLowerCase().includes(searchText.toLowerCase()))}
+                        renderItem={renderCountriesList}
+                        refreshControl={<RefreshControl
+                            refreshing={loading}
+                            onRefresh={refetch}
+                        />}
+                        keyExtractor={(_, index) => index.toString()}
+                        style={styles.countriesFlatList}
+                    />
+                </View>
             </View>
-            <Seperator />
-            <View>
-                {continent.code && <Text style={{alignSelf:"center", margin:10}}>{`Available Countries in ${continent.name} are`}</Text>}
-                <FlatList
-                    ListEmptyComponent={emptyCountry}
-                    data={data?.continent?.countries.filter((country: ICountryItem) => country.name.toLowerCase().includes(searchText.toLowerCase()))}
-                    renderItem={renderCountriesList}
-                    refreshControl={<RefreshControl
-                        refreshing={loading}
-                        onRefresh={refetch}
-                    />}
-                    contentContainerStyle={{ paddingBottom: 20 }}
-                    keyExtractor={(_, index) => index.toString()}
-                    style={styles.countriesFlatList}
-                />
-            </View>
-        </View>
         </SafeAreaView>
     )
 }
@@ -92,7 +121,7 @@ const HomeScreen = (props: IProps) => {
 export default HomeScreen
 
 const styles = StyleSheet.create({
-    container:{ backgroundColor: "white", flex: 1 },
+    container: { backgroundColor: "white", flex: 1 },
     continentItem: {
         flexDirection: "row",
         marginHorizontal: 6,
@@ -109,7 +138,7 @@ const styles = StyleSheet.create({
     continentName1: { color: '#b8b8b8' },
     row: { flexDirection: "row" },
     flag: { fontSize: 25, color: '#000' },
-    countryName:{ color: '#000', fontSize: 16 },
-    searchBar:{ width: "95%", borderRadius: 8, padding: 10, borderWidth: 0.5, alignSelf: "center" },
-    countriesFlatList:{ marginBottom: height * 0.4, marginHorizontal: 6 }
+    countryName: { color: '#000', fontSize: 16 },
+    searchBar: { width: "95%", borderRadius: 8, padding: 10, borderWidth: 0.5, alignSelf: "center" },
+    countriesFlatList: { marginBottom: height * 0.4, marginHorizontal: 6 }
 })
