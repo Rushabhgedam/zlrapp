@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import React, { useState } from 'react'
-import { ActivityIndicator, Dimensions, FlatList, Image, RefreshControl, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, Dimensions, FlatList, Image, RefreshControl, SafeAreaView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { selected, unselected } from './assets'
 import { continentsList } from './constants'
 import { GET_COUNTRIES_OF_CONTINENTS } from './graphql/queries'
@@ -48,7 +48,9 @@ const HomeScreen = (props: IProps) => {
     </View>
     const Seperator = () => <View style={{ marginTop: 10 }} />
     return (
+        <SafeAreaView style={{flex:1}}>
         <View style={styles.container}>
+            <StatusBar />
             <Seperator />
             <TextInput
                 onChangeText={(t) => {
@@ -67,7 +69,7 @@ const HomeScreen = (props: IProps) => {
             </View>
             <Seperator />
             <View>
-                {continent.code && <Text>{`Available Countries in ${continent.name} are`}</Text>}
+                {continent.code && <Text style={{alignSelf:"center", margin:10}}>{`Available Countries in ${continent.name} are`}</Text>}
                 <FlatList
                     ListEmptyComponent={emptyCountry}
                     data={data?.continent?.countries.filter((country: ICountryItem) => country.name.toLowerCase().includes(searchText.toLowerCase()))}
@@ -76,11 +78,13 @@ const HomeScreen = (props: IProps) => {
                         refreshing={loading}
                         onRefresh={refetch}
                     />}
+                    contentContainerStyle={{ paddingBottom: 20 }}
                     keyExtractor={(_, index) => index.toString()}
                     style={styles.countriesFlatList}
                 />
             </View>
         </View>
+        </SafeAreaView>
     )
 }
 
@@ -106,5 +110,5 @@ const styles = StyleSheet.create({
     flag: { fontSize: 25, color: '#000' },
     countryName:{ color: '#000', fontSize: 16 },
     searchBar:{ width: "95%", borderRadius: 8, padding: 10, borderWidth: 0.5, alignSelf: "center" },
-    countriesFlatList:{ marginBottom: height * 0.35, marginHorizontal: 6 }
+    countriesFlatList:{ marginBottom: height * 0.4, marginHorizontal: 6 }
 })
