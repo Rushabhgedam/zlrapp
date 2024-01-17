@@ -56,6 +56,7 @@ const HomeScreen = (props: IProps) => {
                 onChangeText={(t) => {
                     setSearchText(t)
                 }}
+                value={searchText}
                 placeholder={continent.code === "" ? "Please select continent" : "Search Country here..."}
                 style={styles.searchBar} />
             <Seperator />

@@ -3,9 +3,9 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react-native";
 import { GET_COUNTRIES_OF_CONTINENTS } from "../app/graphql/queries";
 
-import { ApolloClient, ApolloProvider, InMemoryCache, useQuery, } from '@apollo/client';
-import HomeScreen from "../app/homescreen";
+import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { MockedProvider } from '@apollo/client/testing';
+import HomeScreen from "../app/homescreen";
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
@@ -57,17 +57,17 @@ const mockData = {
 };
 
 
+const mock1 = [
+  {
+    request: {
+      query: GET_COUNTRIES_OF_CONTINENTS,
+      variables: { code: "AF" },
+    },
+    result: { data: mockData },
+  }
+];
 describe('HomeScreen', () => {
   it('Initial renders homescreen', async () => {
-    const mock1 = [
-      {
-        request: {
-          query: GET_COUNTRIES_OF_CONTINENTS,
-          variables: { code: "AF" },
-        },
-        result: { data: mockData },
-      }
-    ];
     render(
       <MockedProvider mocks={mock1} addTypename={false}>
         <HomeScreen navigation={navigationMock} />
@@ -78,27 +78,26 @@ describe('HomeScreen', () => {
 
 
   test("Checks the component tree rendered correctly", async () => {
-    const mock2 = [
-      {
-        request: {
-          query: GET_COUNTRIES_OF_CONTINENTS,
-          variables: { code: "AF" },
-        },
-        result: { data: mockData },
-      }
-    ];
-    const { getByText, getByPlaceholderText, getByTestId } = render(
-      <MockedProvider mocks={mock2} addTypename={false}>
+    const {  getByText } = render(
+      <MockedProvider mocks={mock1} addTypename={false}>
         <HomeScreen navigation={navigationMock} />
       </MockedProvider>
     );
     expect(getByText('Select Continent')).toBeTruthy();
+  })
+
+  it("should click the continent item to receive the list of countries in a continent", async()=>{
+    const {  getByTestId, getByText, getByPlaceholderText } = render(
+      <MockedProvider mocks={mock1} addTypename={false}>
+        <HomeScreen navigation={navigationMock} />
+      </MockedProvider>
+    );
     fireEvent.press(getByTestId('continent0'));
     await waitFor(() => {
       expect(getByText('Available Countries in Africa are')).toBeTruthy();
     });
     const searchBar = getByPlaceholderText('Search Country here...')
     fireEvent.changeText(searchBar, "AF")
-    expect(searchBar).toBeTruthy();
+    expect(searchBar.props.value).toBe("AF");
   })
 });
