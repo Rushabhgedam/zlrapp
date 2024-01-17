@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1705471260703" clover="3.2.0">
+  <project timestamp="1705471260703" name="All files">
+    <metrics statements="32" coveredstatements="32" conditionals="14" coveredconditionals="14" methods="14" coveredmethods="14" elements="60" coveredelements="60" complexity="0" loc="32" ncloc="32" packages="4" files="7" classes="7"/>
+    <package name="app">
+      <metrics statements="25" coveredstatements="25" conditionals="14" coveredconditionals="14" methods="14" coveredmethods="14"/>
+      <file name="homescreen.tsx" path="/Users/rushabhgedam/Documents/graphql/zlrapp/app/homescreen.tsx">
+        <metrics statements="19" coveredstatements="19" conditionals="14" coveredconditionals="14" methods="11" coveredmethods="11"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="12" count="5" type="stmt"/>
+        <line num="16" count="5" type="stmt"/>
+        <line num="18" count="5" type="stmt"/>
+        <line num="22" count="5" type="stmt"/>
+        <line num="23" count="35" type="stmt"/>
+        <line num="24" count="35" type="stmt"/>
+        <line num="33" count="5" type="stmt"/>
+        <line num="34" count="1" type="stmt"/>
+        <line num="42" count="5" type="stmt"/>
+        <line num="49" count="15" type="stmt"/>
+        <line num="50" count="5" type="stmt"/>
+        <line num="55" count="1" type="stmt"/>
+        <line num="63" count="35" type="stmt"/>
+        <line num="64" count="30" type="stmt"/>
+        <line num="73" count="2" type="stmt"/>
+        <line num="79" count="1" type="stmt"/>
+        <line num="89" count="1" type="stmt"/>
+      </file>
+      <file name="splashscreen.tsx" path="/Users/rushabhgedam/Documents/graphql/zlrapp/app/splashscreen.tsx">
+        <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="app.assets">
+      <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="index.ts" path="/Users/rushabhgedam/Documents/graphql/zlrapp/app/assets/index.ts">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+      </file>
+      <file name="selected.png" path="/Users/rushabhgedam/Documents/graphql/zlrapp/app/assets/selected.png">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+      </file>
+      <file name="unselected.png" path="/Users/rushabhgedam/Documents/graphql/zlrapp/app/assets/unselected.png">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="app.constants">
+      <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="index.ts" path="/Users/rushabhgedam/Documents/graphql/zlrapp/app/constants/index.ts">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="3" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="app.graphql">
+      <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="queries.ts" path="/Users/rushabhgedam/Documents/graphql/zlrapp/app/graphql/queries.ts">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+      </file>
+    </package>
+  </project>
+</coverage>
