@@ -41,7 +41,7 @@ const HomeScreen = (props: IProps) => {
 
     const renderContinentsList = ({ item, index }: { item: IContinent, index: number }) => {
         let isSelected = item.code === continent.code
-        return <TouchableOpacity testID={'continent' + index} onPress={() => setContinent({ code: item.code, name: item.name })}
+        return <TouchableOpacity testID={'continent' + index} onPress={() => item.code !== continent.code && setContinent({ code: item.code, name: item.name })}
             style={[styles.continentItem, { backgroundColor: isSelected ? "#e8f2fb" : "white" }]}>
             <Image source={isSelected ? selected : unselected} style={styles.radioBtn} />
             <Text style={styles.continentName}>
@@ -51,6 +51,7 @@ const HomeScreen = (props: IProps) => {
     }
 
     const renderCountriesList = ({ item, index }: { item: ICountryItem, index: number }) => {
+        console.log("rendering components...");
         return <View style={styles.row}>
             <Text style={styles.flag}>{item.emoji}</Text>
             <View>
