@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 package com.zlrapp;
-
+import tech.bam.rnperformance.flipper.RNPerfMonitorPlugin;
 import android.content.Context;
 import com.facebook.flipper.android.AndroidFlipperClient;
 import com.facebook.flipper.android.utils.FlipperUtils;
@@ -63,12 +63,14 @@ public class ReactNativeFlipper {
                       @Override
                       public void run() {
                         client.addPlugin(new FrescoFlipperPlugin());
+                        client.addPlugin(new RNPerfMonitorPlugin(reactInstanceManager));
                       }
                     });
               }
             });
       } else {
         client.addPlugin(new FrescoFlipperPlugin());
+        client.addPlugin(new RNPerfMonitorPlugin(reactInstanceManager));
       }
     }
   }
