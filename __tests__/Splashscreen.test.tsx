@@ -1,16 +1,8 @@
-/**
- * @format
- */
-
-import 'react-native';
 import React from 'react';
-import App from '../app/App';
-
-// Note: test renderer must be required after react-native.
-import renderer from 'react-test-renderer';
-import SplashScreen from '../app/splashscreen';
-import { IProps } from '../app/types';
+import 'react-native';
 import { render, screen } from '@testing-library/react-native';
+import SplashScreen from '../app/screens/splash';
+
 jest.useFakeTimers();
 
 describe('Splash Screen test suite', () => {

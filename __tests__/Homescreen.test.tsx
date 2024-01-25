@@ -5,47 +5,16 @@ import { GET_ALL_COUNTRIES, GET_COUNTRIES_OF_CONTINENTS } from "../app/graphql/q
 
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { MockedProvider } from '@apollo/client/testing';
-import HomeScreen from "../app/homescreen";
-
-const client = new ApolloClient({
-  cache: new InMemoryCache(),
-  uri: "https://countries.trevorblades.com/graphql"
-})
+import HomeScreen from "../app/screens/home";
+import { ReactNode } from "react";
 
 const navigationMock = {
   navigate: jest.fn(),
 };
 
-
-
-
-
-
-
 jest.mock('react-native/Libraries/Utilities/Dimensions', () => ({
   get: jest.fn(() => ({ width: 360, height: 640 })),
 }));
-
-
-const continentMock = {
-  code: 'AF',
-  name: 'Africa',
-};
-
-const countriesMock = {
-  continent: {
-    countries: [
-      {
-        name: 'Uganda',
-        emoji: '🌍',
-        continent: {
-          name: 'Africa',
-        },
-      },
-
-    ],
-  },
-};
 
 const mockData = {
   continent: {
@@ -57,25 +26,25 @@ const mockData = {
 };
 
 const allCountriesList = {
-      "countries": [
-          {
-              "name": "Andorra",
-              "continent": {
-                  "name": "Europe",
-                  "code": "EU"
-              },
-              "emoji": "🇦🇩"
-          },
-          {
-              "name": "United Arab Emirates",
-              "continent": {
-                  "name": "Asia",
-                  "code": "AS"
-              },
-              "emoji": "🇦🇪"
-          },
-        ]
-      }
+  "countries": [
+    {
+      "name": "Andorra",
+      "continent": {
+        "name": "Europe",
+        "code": "EU"
+      },
+      "emoji": "🇦🇩"
+    },
+    {
+      "name": "United Arab Emirates",
+      "continent": {
+        "name": "Asia",
+        "code": "AS"
+      },
+      "emoji": "🇦🇪"
+    },
+  ]
+}
 
 const mock1 = [
   {
@@ -92,31 +61,37 @@ const mock1 = [
     result: { data: mockData },
   },
 ];
-describe('HomeScreen', () => {
-  it('Initial renders homescreen', async () => {
+
+const MockApolloProvider = ({ children }: {children: ReactNode}) => <MockedProvider mocks={mock1} addTypename={false}>{children}</MockedProvider>
+
+
+describe('HomeScreen test suite', () => {
+  it('Check for initial render of homescreen', async () => {
     render(
-      <MockedProvider mocks={mock1} addTypename={false}>
+      <MockApolloProvider>
         <HomeScreen navigation={navigationMock} />
-      </MockedProvider>
+      </MockApolloProvider>
     );
     expect(screen).toMatchSnapshot()
   });
 
 
-  test("Checks the component tree rendered correctly", async () => {
-    const {  getByText } = render(
-      <MockedProvider mocks={mock1} addTypename={false}>
+  test("the component tree rendered correctly with search bar & placeholder", async () => {
+    const { getByText, getByPlaceholderText, getByTestId } = render(
+      <MockApolloProvider>
         <HomeScreen navigation={navigationMock} />
-      </MockedProvider>
+      </MockApolloProvider>
     );
+    expect(getByTestId('searchBar')).toBeTruthy();
     expect(getByText('Select Continent')).toBeTruthy();
+    expect(getByPlaceholderText('Please select continent')).toBeTruthy();
   })
 
-  it("should click the continent item to receive the list of countries in a continent", async()=>{
-    const {  getByTestId, getByText, getByPlaceholderText } = render(
-      <MockedProvider mocks={mock1} addTypename={false}>
+  it("should click the continent item to receive the list of countries in a continent", async () => {
+    const { getByTestId, getByText, getByPlaceholderText } = render(
+      <MockApolloProvider>
         <HomeScreen navigation={navigationMock} />
-      </MockedProvider>
+      </MockApolloProvider>
     );
     fireEvent.press(getByTestId('continent0'));
     await waitFor(() => {
