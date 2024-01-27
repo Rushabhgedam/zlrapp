@@ -6,7 +6,7 @@ import SplashScreenView from './splash.view';
 const SplashScreen = (props: IProps) => {
     useEffect(() => {
         setTimeout(() => {
-            props.navigation.navigate("homescreen")
+            props.navigation.replace("homescreen")
         }, 3000);
     }, [])
     return <SplashScreenView {...props} />

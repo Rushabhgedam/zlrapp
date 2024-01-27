@@ -1,5 +1,8 @@
 export interface IProps {
-    navigation: { navigate: (screenName: string) => void }
+    navigation: { 
+        navigate: (screenName: string) => void,
+        replace: (screenName: string) => void 
+    }
 }
 
 

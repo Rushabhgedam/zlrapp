@@ -8,6 +8,7 @@ jest.useFakeTimers();
 describe('Splash Screen test suite', () => {
   const navigationMock = {
     navigate: jest.fn(),
+    replace: jest.fn(),
   };
   it('renders the initial component', () => {
     render(<SplashScreen navigation={navigationMock} />);
@@ -15,6 +16,6 @@ describe('Splash Screen test suite', () => {
   });
   it('navigates to homescreen after 3 seconds', () => {
     jest.advanceTimersByTime(3000);
-    expect(navigationMock.navigate).toHaveBeenCalledWith('homescreen');
+    expect(navigationMock.replace).toHaveBeenCalledWith('homescreen');
   });
 });
